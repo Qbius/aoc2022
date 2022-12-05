@@ -19,7 +19,7 @@ inpt_path = f'inputs/{day}.txt'
 year = datetime.now().year
 if not exists(inpt_path):
     session = open('session.id').read().strip()
-    inpt = requests.get(f'https://adventofcode.com/{year}/day/{day}/input', cookies={'session': session}, headers={'User-Agent': 'Mozilla/5.0'}).text.strip()
+    inpt = requests.get(f'https://adventofcode.com/{year}/day/{day}/input', cookies={'session': session}, headers={'User-Agent': 'Mozilla/5.0'}).text.rstrip()
     with open(inpt_path, 'w') as o_file:
         o_file.write(inpt)
 
@@ -54,7 +54,7 @@ def parse_input(day_f, day_input_raw):
         return list(map(type_hints[0], day_input_lines))
 
 def call_with_appropriate_arg(day_f):
-    day_input_raw = (day_module.example if example else open(f'inputs/{day}.txt').read()).strip().replace('\r\n', '\n')
+    day_input_raw = (day_module.example if example else open(f'inputs/{day}.txt').read()).rstrip().replace('\r\n', '\n')
     parsed_input = day_module.parse(day_input_raw) if hasattr(day_module, 'parse') else parse_input(day_f, day_input_raw)
     return day_f(*parsed_input) if isinstance(parsed_input, tuple) else day_f(parsed_input)
 
