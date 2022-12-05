@@ -8,14 +8,14 @@ def parse(rawinput):
 
 def first(stacks, instructions):
     for count, frm, to in instructions:
-        stacks[to][0:0] = stacks[frm][count::-1]
+        stacks[to][:0] = stacks[frm][count::-1]
         stacks[frm] = stacks[frm][count + 1:]
     return ''.join(first for first, *_rest in stacks)
 
 
 def second(stacks, instructions):
     for count, frm, to in instructions:
-        stacks[to][0:0] = stacks[frm][:count + 1]
+        stacks[to][:0] = stacks[frm][:count + 1]
         stacks[frm] = stacks[frm][count + 1:]
     return ''.join(first for first, *_rest in stacks)
 
