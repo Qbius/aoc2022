@@ -1,6 +1,5 @@
 from common import regex, raw_input
 from functools import reduce
-from itertools import starmap
 
 def crawl(tape):
     filesystem = {'/': {}}
@@ -19,25 +18,28 @@ def crawl(tape):
     return filesystem
 
 def get_size_listing(filesystem):
-    size_listing = {}
-    def inner(dirname, info):
+    size_listing = []
+    def inner(info):
         if isinstance(info, int):
             return info
         else:
             nonlocal size_listing
-            size = sum(starmap(inner, info.items()))
-            size_listing[dirname] = size
+            size = sum(map(inner, info.values()))
+            size_listing.append(size)
             return size
-    inner('/', filesystem['/'])
+    inner(filesystem['/'])
     return size_listing
 
 def first(values: regex(r'(?:\$ |)([a-z0-9$]+) ([a-z\.\/]+)', [str, str])):    
     filesystem = crawl(values)
     sizes = get_size_listing(filesystem)
-    return sum(v for v in sizes.values() if v <= 100000)
+    return sum(v for v in sizes if v <= 100000)
 
-def second(values):
-    pass
+def second(values: regex(r'(?:\$ |)([a-z0-9$]+) ([a-z\.\/]+)', [str, str])):
+    filesystem = crawl(values)
+    sizes = get_size_listing(filesystem)
+    remaining_space = max(sizes) - 40000000
+    return min(v for v in sizes if v >= remaining_space)
 
 example = '''$ cd /
 $ ls
