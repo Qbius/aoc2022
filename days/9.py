@@ -18,19 +18,39 @@ def first(moves):
             visited.add(tuple(tail))
     return len(visited)
 
+def follow(head, tail):
+    match head, tail:
+        case (hx, hy), (tx, ty) if hx == tx and abs(hy - ty) == 2:
+            return (tx, round((hy + ty) / 2))
+        case (hx, hy), (tx, ty) if hy == ty and abs(hx - tx) == 2:
+            return (round((hx + tx) / 2), ty)
+        case (hx, hy), (tx, ty) if abs(hx - tx) <= 1 and abs(hy - ty) <= 1:
+            return (tx, ty)
+        case (hx, hy), (tx, ty) if hx == tx:
+            return (tx, ty)
+        case (hx, hy), (tx, ty) if hy == ty:
+            return (tx, ty)
+        case (hx, hy), (tx, ty) if hx < tx and hy < ty:
+            return (tx - 1, ty - 1)
+        case (hx, hy), (tx, ty) if hx < tx and hy >= ty:
+            return (tx - 1, ty + 1)
+        case (hx, hy), (tx, ty) if hx >= tx and hy < ty:
+            return (tx + 1, ty - 1)
+        case (hx, hy), (tx, ty) if hx >= tx and hy >= ty:
+            return (tx + 1, ty + 1)
+        case _:
+            raise 'what'
+
 def second(moves):
-    rope = [Series((0, 0)) for _ in range(10)]
-    visited = {tuple(rope[-1])}
-    for move in moves:
-        rope[0] += move
+    rope = [(0, 0) for _ in range(10)]
+    visited = {rope[-1]}
+    for (mx, my) in moves:
+        hx, hy = rope[0]
+        rope[0] = (hx + mx, hy + my)
         for i in range(len(rope) - 1):
-            if (rope[i] - rope[i + 1]).abs().max() > 1:
-                prev = copy(rope[i + 1])
-                rope[i + 1] = rope[i] - move
-                move = tuple(rope[i + 1] - prev)
-                if i == (len(rope) - 1):
-                    visited.add(tuple(rope[-1]))
-        print(rope)
+            rope[i + 1] = follow(rope[i], rope[i + 1])
+            if i == (len(rope) - 2):
+                visited.add(rope[-1])
     return len(visited)
 
 example = '''R 5
