@@ -1,6 +1,5 @@
 from iteration_utilities import deepflatten
 from pandas import Series
-from copy import copy
 
 def parse(rawinpt):
     rows = [row.split(' ') for row in rawinpt.split('\n')]
@@ -26,20 +25,8 @@ def follow(head, tail):
             return (round((hx + tx) / 2), ty)
         case (hx, hy), (tx, ty) if abs(hx - tx) <= 1 and abs(hy - ty) <= 1:
             return (tx, ty)
-        case (hx, hy), (tx, ty) if hx == tx:
-            return (tx, ty)
-        case (hx, hy), (tx, ty) if hy == ty:
-            return (tx, ty)
-        case (hx, hy), (tx, ty) if hx < tx and hy < ty:
-            return (tx - 1, ty - 1)
-        case (hx, hy), (tx, ty) if hx < tx and hy >= ty:
-            return (tx - 1, ty + 1)
-        case (hx, hy), (tx, ty) if hx >= tx and hy < ty:
-            return (tx + 1, ty - 1)
-        case (hx, hy), (tx, ty) if hx >= tx and hy >= ty:
-            return (tx + 1, ty + 1)
-        case _:
-            raise 'what'
+        case (hx, hy), (tx, ty):
+            return (tx + (-1 if hx < tx else 1), ty + (-1 if hy < ty else 1))
 
 def second(moves):
     rope = [(0, 0) for _ in range(10)]
