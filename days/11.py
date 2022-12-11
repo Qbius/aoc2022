@@ -4,7 +4,6 @@ from math import prod
 
 def parse(rawinpt):
     pattern = r'Monkey (\d+):\s+Starting items: (\d+(?:, \d+)*)\s+Operation: new = old (.) (\d+|old)\s+Test: divisible by (\d+)\s+If true: throw to monkey (\d+)\s+If false: throw to monkey (\d+)'
-    parsed = [re.match(pattern, monkey).groups() for monkey in rawinpt.split('\n\n')]
     return dict(sorted([
         (int(m_id), {
             'items': list(map(int, items_str.split(', '))),
@@ -13,7 +12,7 @@ def parse(rawinpt):
             'inspected': 0,
             'modulo': int(divitest)
         })
-        for m_id, items_str, op, operand, divitest, iftrue, iffalse in parsed])
+        for m_id, items_str, op, operand, divitest, iftrue, iffalse in re.findall(pattern, rawinpt)])
     )
 
 def round(monkeys):
