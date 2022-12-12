@@ -11,16 +11,16 @@ def djikstra(start, endpoints, grid):
     distances = {(x, y): max_distance for x in range(width) for y in range(height)}
     distances[start] = 0
     visited = set()
-    while any(point not in visited for point in endpoints):
-        current = min([point for point in distances.keys() if point not in visited], key=distances.get)
+    not_visited = lambda point: point not in visited
+    while any(map(not_visited, endpoints)):
+        current = min(filter(not_visited, distances), key=distances.get)
         cx, cy = current
 
-        not_visited = lambda x, y: (x, y) not in visited
         in_bounds = lambda x, y: x >= 0 and x < width and y >= 0 and y < height
         ok_label = lambda x, y: (ord(grid[cy][cx]) - ord(grid[y][x])) <= 1
         
         nbrs = [(cx - 1, cy), (cx + 1, cy), (cx, cy - 1), (cx, cy + 1)]
-        nbrs = [point for point in nbrs if not_visited(*point) and in_bounds(*point) and ok_label(*point)]
+        nbrs = [point for point in nbrs if not_visited(point) and in_bounds(*point) and ok_label(*point)]
 
         for point in nbrs:
             distances[point] = distances[current] + 1
