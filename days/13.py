@@ -1,7 +1,7 @@
 from common import raw_input
 from itertools import starmap
 from iteration_utilities import starfilter
-import functools
+from functools import cmp_to_key
 
 def compare(a, b):
     if type(a) != type(b):
@@ -21,7 +21,7 @@ def first(rawinpt: raw_input):
 def second(lines):
     div1 = [[2]]
     div2 = [[6]]
-    packets = sorted([div1, div2, *list(map(eval, filter(len, lines)))], key=functools.cmp_to_key(compare))
+    packets = sorted([div1, div2, *list(map(eval, filter(len, lines)))], key=cmp_to_key(compare))
     return (packets.index(div1) + 1) * (packets.index(div2) + 1)
     
 
