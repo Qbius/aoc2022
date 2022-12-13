@@ -1,7 +1,6 @@
 from common import raw_input
 from itertools import starmap
 from iteration_utilities import starfilter
-from numpy import sign
 import functools
 
 def compare(a, b):
@@ -10,10 +9,10 @@ def compare(a, b):
         b = [b] if isinstance(b, int) else b
     
     if isinstance(a, int):
-        return sign(a - b)
+        return a - b
     else:
         list_comparison = next((res for res in starmap(compare, zip(a, b)) if res != 0), 0)
-        return list_comparison or sign(len(a) - len(b))
+        return list_comparison or len(a) - len(b)
      
 def first(rawinpt: raw_input):
     pairs = [tuple(map(eval, pair.split('\n'))) for pair in rawinpt.split('\n\n')]
