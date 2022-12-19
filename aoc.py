@@ -55,7 +55,7 @@ def parse_input(day_f, day_input_raw):
 
 def call_with_appropriate_arg(day_f):
     day_input_raw = (day_module.example if example else open(f'inputs/{day}.txt').read()).rstrip().replace('\r\n', '\n')
-    parsed_input = day_module.parse(day_input_raw) if hasattr(day_module, 'parse') else parse_input(day_f, day_input_raw)
+    parsed_input = day_module.parse(parse_input(day_module.parse, day_input_raw)) if hasattr(day_module, 'parse') else parse_input(day_f, day_input_raw)
     return day_f(*parsed_input) if isinstance(parsed_input, tuple) else day_f(parsed_input)
 
 
