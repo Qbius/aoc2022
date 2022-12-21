@@ -53,7 +53,6 @@ class Variable(object):
    
 def second(monkeys):
     monkeys['humn'] = 'Variable()'
-    cons1, cons2 = expand(monkeys, monkeys['root'][:4]), expand(monkeys, monkeys['root'][-4:])
     var = eval(expand(monkeys, monkeys['root'][:4]), globals(), locals())
     num = eval(expand(monkeys, monkeys['root'][-4:]))
     return var.equals(num)
