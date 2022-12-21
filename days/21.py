@@ -53,8 +53,9 @@ class Variable(object):
    
 def second(monkeys):
     monkeys['humn'] = 'Variable()'
-    var = eval(expand(monkeys, monkeys['root'][:4]), globals(), locals())
-    num = eval(expand(monkeys, monkeys['root'][-4:]))
+    cons1, cons2 = expand(monkeys, monkeys['root'][:4]), expand(monkeys, monkeys['root'][-4:])
+    var = eval(cons1 if 'Variable()' in cons1 else cons2, globals(), locals())
+    num = eval(cons2 if 'Variable()' in cons1 else cons1)
     return var.equals(num)
 
 example = '''root: pppw + sjmn
