@@ -6,7 +6,7 @@ def parse(lines):
 
 def expand(monkeys, monkeycode):
     def subit(monkeyv):
-        return f'''({reduce(lambda acc, code: acc.replace(code, subit(monkeys[code])), re.findall(r'[a-z]{4}', monkeyv), monkeyv)})'''
+        return f'''({reduce(lambda acc, code: acc.replace(code, subit(monkeys[code])), re.findall(r'(^[a-z]{4}|[a-z]{4}$)', monkeyv), monkeyv)})'''
     
     return subit(monkeys[monkeycode])
 def first(monkeys):
@@ -52,10 +52,10 @@ class Variable(object):
         return reduce(lambda acc, operation: operation(acc), self.operations[::-1], a)
    
 def second(monkeys):
-    monkeys['humn'] = '@'
+    monkeys['humn'] = 'Variable()'
     cons1, cons2 = expand(monkeys, monkeys['root'][:4]), expand(monkeys, monkeys['root'][-4:])
-    var = eval((cons1 if '@' in cons1 else cons2).replace('@', 'Variable()'), globals(), locals())
-    num = eval((cons2 if '@' in cons1 else cons1))
+    var = eval(expand(monkeys, monkeys['root'][:4]), globals(), locals())
+    num = eval(expand(monkeys, monkeys['root'][-4:]))
     return var.equals(num)
 
 example = '''root: pppw + sjmn
