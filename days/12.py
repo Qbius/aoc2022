@@ -1,8 +1,8 @@
-def parse(rawinpt):
-    grid = [list(line) for line in rawinpt.split('\n')]
+def parse(lines):
+    grid = [list(line) for line in lines]
     start = next((x, y) for x in range(len(grid[0])) for y in range(len(grid)) if grid[y][x] == 'S')
     end = next((x, y) for x in range(len(grid[0])) for y in range(len(grid)) if grid[y][x] == 'E')
-    return start, end, [list(line) for line in rawinpt.replace('S', 'a').replace('E', 'z').split('\n')]
+    return start, end, [list(line.replace('S', 'a').replace('E', 'z')) for line in lines]
 
 def djikstra(start, endpoints, grid):
     width = len(grid[0])

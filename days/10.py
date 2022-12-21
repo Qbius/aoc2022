@@ -1,6 +1,7 @@
 from pandas import Series
+from common import raw_input
 
-def parse(rawinpt):
+def parse(rawinpt: raw_input):
     return Series([1, *list(map(lambda l: 0 if l == 'noop' else int(l), [line.split(' ')[-1] for line in rawinpt.replace('addx', 'noop\naddx').split('\n')]))]).cumsum()
 
 def first(xregister):

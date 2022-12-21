@@ -1,6 +1,7 @@
 import re
+from common import raw_input
 
-def parse(rawinput):
+def parse(rawinput: raw_input):
     stacks_raw, instructions_raw = rawinput.split('\n\n')
     stacks = [list(e for e in stack if e != ' ') for stack in zip(*[list(line[1::2][::2]) for line in stacks_raw.split('\n')[:-1]])]
     instructions = [tuple(map(lambda n: int(n) - 1, re.match(r'move (\d+) from (\d+) to (\d+)', line).groups())) for line in instructions_raw.split('\n')]

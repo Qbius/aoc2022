@@ -1,8 +1,8 @@
 from itertools import count, pairwise
 from numpy import sign
 
-def parse(rawinpt):
-    corners = [[tuple(map(int, point.split(','))) for point in line.split(' -> ')] for line in rawinpt.split('\n')]
+def parse(lines):
+    corners = [[tuple(map(int, point.split(','))) for point in line.split(' -> ')] for line in lines]
     point_range = lambda n: range(0, n + sign(n), sign(n))
     return set().union(*[{(sx + i * abs(sign(ex - sx)), sy + i * abs(sign(ey - sy))) for (sx, sy), (ex, ey) in pairwise(line) for i in point_range(ex + ey - sx - sy)} for line in corners])
 

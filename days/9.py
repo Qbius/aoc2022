@@ -1,8 +1,8 @@
 from iteration_utilities import deepflatten
 from pandas import Series
 
-def parse(rawinpt):
-    rows = [row.split(' ') for row in rawinpt.split('\n')]
+def parse(lines):
+    rows = [row.split(' ') for row in lines]
     moves_stack = [((int(val_str) if dr in ['L', 'R'] else 0) * (1 if dr == 'R' else -1), (int(val_str) if dr in ['U', 'D'] else 0) * (1 if dr == 'D' else -1)) for dr, val_str in rows]
     return list(deepflatten([max(map(abs, move)) * [tuple(map(lambda e: e // max(map(abs, move)), move))] for move in moves_stack], ignore=tuple))
 

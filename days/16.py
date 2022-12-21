@@ -1,8 +1,9 @@
 import re
 from time import time
 from functools import cache
+from common import raw_input
 
-def parse(rawinpt):
+def parse(rawinpt: raw_input):
     pattern = r'Valve ([A-Z]{2}) has flow rate=(\d+); tunnels? leads? to valves? ([A-Z]{2}(?:\, [A-Z]{2})*)'
     rates = {valve: int(rate_str) for valve, rate_str, _ in re.findall(pattern, rawinpt)}
     moves = {valve: adjs_str.split(', ') for valve, _, adjs_str in re.findall(pattern, rawinpt)}

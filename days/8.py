@@ -1,8 +1,9 @@
 from pandas import DataFrame
 from math import prod
+from common import raw_input
 
-def parse(rawinput):
-    return [list(map(int, line)) for line in rawinput.split('\n')]
+def parse(lines):
+    return [list(map(int, line)) for line in lines]
 
 def visible_from_sides(grid):
     return {(w, h) for h, row in enumerate(grid) for w, n in enumerate(row) if max(row[:w], default=-1) < n or max(row[w + 1:], default=-1) < n}

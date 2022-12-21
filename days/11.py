@@ -1,8 +1,9 @@
 import re
 from copy import copy
 from math import prod
+from common import raw_input
 
-def parse(rawinpt):
+def parse(rawinpt: raw_input):
     pattern = r'Monkey (\d+):\s+Starting items: (\d+(?:, \d+)*)\s+Operation: new = old (.) (\d+|old)\s+Test: divisible by (\d+)\s+If true: throw to monkey (\d+)\s+If false: throw to monkey (\d+)'
     return dict(sorted([
         (int(m_id), {
