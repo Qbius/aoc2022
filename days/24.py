@@ -7,7 +7,7 @@ def parse(lines):
     width = len(lines[0]) - 2
     height = len(lines) - 2
     perturns = list(zip(*[[((x + xdiff * i) % width, ((y + ydiff * i - 1) % height) + 1) for i in range(width * height)] for (x, y), (xdiff, ydiff) in blizzards]))
-    n = 100
+    n = 2000
     return take(cycle(perturns), n), width, height
 
 def djikstra(start, points, stop):
