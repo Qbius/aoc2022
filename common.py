@@ -32,3 +32,25 @@ class Pipe(object):
 
 P = Pipe
 
+def djikstra(start, points, nbrs_getter=None):
+    if nbrs_getter is None:
+        dimcount = len(list(points)[0])
+        elebase = [0, 0] * dimcount
+        bases = [[*elebase[:i * 2], -1, 1, *elebase[(i + 1) * 2:]] for i in range(dimcount)]
+        directions = list(zip(*bases))
+        nbrs_getter = lambda p: [nbr for dr in directions if (nbr := tuple(map(sum, zip(p, dr)))) in points]
+
+    distances = {point: len(points) + 1 for point in points}
+    distances[start] = 0
+    visited = set()
+    not_visited = lambda point: point not in visited
+    while visited != points:
+        current = min(filter(not_visited, distances), key=distances.get)
+        for nbr in nbrs_getter(current):
+            if nbr not in visited:
+                distances[nbr] = distances[current] + 1
+        visited.add(current)
+    return distances
+
+def take(iterable, n):
+    return [next(iterable) for _ in range(n)]
