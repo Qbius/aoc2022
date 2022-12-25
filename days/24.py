@@ -6,7 +6,7 @@ def parse(lines):
     blizzards = [((x, y + 1), dirs[c]) for y, (_wall1, *middle, _wall2) in enumerate(lines[1:-1]) for x, c in enumerate(middle) if c != '.']
     width = len(lines[0]) - 2
     height = len(lines) - 2
-    perturns = list(zip(*[[((x + xdiff * i) % width, (y + ydiff * i) % height) for i in range(width * height)] for (x, y), (xdiff, ydiff) in blizzards]))
+    perturns = list(zip(*[[((x + xdiff * i) % width, ((y + ydiff * i - 1) % height) + 1) for i in range(width * height)] for (x, y), (xdiff, ydiff) in blizzards]))
     n = 100
     return take(cycle(perturns), n), width, height
 
